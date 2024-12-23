@@ -28,14 +28,20 @@ const Delete = styled.span`
 `;
 
 export const TodoItem = ({title, checked, id, priority}) => {
-
+    const { mutate } = useDeleteTodoItem();
+    const onClickHandler = () => {
+        console.log(id, title)
+        if (window.confirm(`Удалить элемент?`)) {
+            mutate({ id });
+        }
+    }
   return (
     <TodoItemContainer>
       <TodoItemCheckbox checked={checked} disabled={false} id={id} priority={priority}/>
       <Title checked={checked}>
         {title}
       </Title>
-      <Delete/>
+      <Delete onClick={onClickHandler}/>
     </TodoItemContainer>
   )
 }
