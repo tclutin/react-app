@@ -30,12 +30,12 @@ export const TodoItems = () => {
 
 
   const todoItemsElements = filteredBySearchItems.map((item, index) => {
-    return <TodoItem key={item.id} id={item.id} title={item.title} checked={item.isDone} />;
+    return <TodoItem key={item.id} id={item.id} title={item.title} checked={item.isDone} priority={item.priority}/>;
   });
 
   return (
     <TodoItemsContainer>
-      <SearchInput value={searchValue} />
+      <SearchInput value={searchValue} setValue={setSearchValue}/>
       {todoItemsElements}
       <NewTodoItem />
     </TodoItemsContainer>

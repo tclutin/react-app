@@ -2,14 +2,15 @@ import React from 'react';
 import styled, { css } from "styled-components"
 import {TodoItemContainer} from './TodoItemContainer'
 import {TodoItemCheckbox} from './TodoItemCheckbox';
-import {useDeleteTodoItem} from "../../data/hooks/useData";
+import {useDeleteTodoItem, useUpdateTodoItem} from "../../data/hooks/useData";
+import {TodoItemPriority} from "./TodoItemPriority";
 
 const checkedCss = css`
   color: #B5B5BA;
   text-decoration: line-through;
 `
 
-const Title = styled.span(props => {
+const Title = styled.div(props => {
   return `
     font-size: 15px;
     ${props.checked ? checkedCss : ''};
@@ -30,11 +31,12 @@ const Delete = styled.span`
 export const TodoItem = ({title, checked, id, priority}) => {
     const { mutate } = useDeleteTodoItem();
     const onClickHandler = () => {
-        console.log(id, title)
         if (window.confirm(`Удалить элемент?`)) {
             mutate({ id });
         }
     }
+
+
   return (
     <TodoItemContainer>
       <TodoItemCheckbox checked={checked} disabled={false} id={id} priority={priority}/>
@@ -42,6 +44,7 @@ export const TodoItem = ({title, checked, id, priority}) => {
         {title}
       </Title>
       <Delete onClick={onClickHandler}/>
+        <TodoItemPriority id={id} priority={priority}/>
     </TodoItemContainer>
   )
 }
