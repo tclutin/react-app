@@ -44,7 +44,7 @@ export const TodoItem = ({title, checked, id, priority}) => {
         {title}
       </Title>
       <Delete onClick={onClickHandler}/>
-        <TodoItemPriority id={id} priority={priority}/>
+        <TodoItemPriority id={id} priority={priority} disabled={checked}/>
     </TodoItemContainer>
   )
 }
