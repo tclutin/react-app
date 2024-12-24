@@ -4,17 +4,17 @@ import {Priority} from "../../data/entity/TodoItem";
 const Root = styled.div(props => {
   let borderColor;
   switch (props.priority) {
-    case 'Низкий':
+    case Priority.LOW:
       borderColor = '#77d16c';
       break;
-    case 'Средний':
+    case Priority.MEDIUM:
       borderColor = '#f7c100';
       break;
-    case 'Высокий':
+    case Priority.HIGH:
       borderColor = '#f75e5e';
       break;
     default:
-      borderColor = '#77d16c';
+      borderColor = '#767676';
   }
   return `display: flex;
   gap: 9px;
