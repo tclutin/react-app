@@ -11,7 +11,6 @@ const PrioritySelect = styled.select`
 
 
 export const TodoItemPriority = ({ id, priority, disabled }) => {
-    console.log(priority)
     const { mutate } = useUpdateTodoItem();
     const onPriorityChange = (event) => {
         const newPriority = event.target.value;
