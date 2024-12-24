@@ -1,6 +1,6 @@
 import {LocalStorage} from '../services/LocalStorage';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {TodoItem} from '../entity/TodoItem'
+import {Priority, TodoItem} from '../entity/TodoItem'
 
 export const useData = () => {
   const {data, isLoading} = useQuery({
@@ -19,7 +19,7 @@ export const useSaveNewTodoItem = () => {
 
   const {mutate, isPending, isSuccess} = useMutation({
     mutationFn: ({title}) => {
-      const newTodoItem = new TodoItem(new Date().getTime(), title, false);
+      const newTodoItem = new TodoItem(new Date().getTime(), title, false, Priority.LOW);
       return LocalStorage.saveTodoItemToLocalStorage(newTodoItem)
     },
     onSuccess: () => {
@@ -31,5 +31,39 @@ export const useSaveNewTodoItem = () => {
     mutate,
     isPending,
     isSuccess
+  }
+}
+
+export const useUpdateTodoItem = () => {
+  const client = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: ({ id, checked, priority }) => {
+      return LocalStorage.updateTodoItemInLocalStorage(id, checked, priority);
+    },
+    onSuccess: () => {
+      client.invalidateQueries(['todo']);
+    },
+  });
+
+  return {
+    mutate
+  }
+}
+
+export const useDeleteTodoItem = () => {
+  const client = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: ({ id }) => {
+      return LocalStorage.deleteTodoItemFromLocalStorage(id);
+    },
+    onSuccess: () => {
+      client.invalidateQueries(['todo']);
+    },
+  });
+
+  return {
+    mutate
   }
 }

@@ -4,9 +4,11 @@ import {NewTodoItem} from '../TodoItem/NewTodoItem';
 import {TodoItem} from '../TodoItem/TodoItem';
 import {useData} from '../../data/hooks/useData';
 import {SearchInput} from './components/SearchInput';
+import {SelectPriority} from "./components/SelectPriority";
 
 export const TodoItems = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('Все');
 
   const {data: todoItems, isLoading} = useData();
 
@@ -18,25 +20,29 @@ export const TodoItems = () => {
     );
   }
 
-  // Фукнция filter вызывает для каждого элемента переданный ей колбек
-  // И формирует в filteredBySearchItems новый массив элементов, для которых колбек вернул true
-  // Для проверки вхождения подстроки в строку нужно использовать indexOf
   const filteredBySearchItems = todoItems.filter((todoItem) => {
-    // const clearedTodoItemTitle = очистка от пробелов + приведение к одному из регистров
-    // const clearedSearchValue = очистка от пробелов + приведение к одному из регистров
-    // const isSearched = проверка вхождения строки поиска в строку заголовка
-    // return isSearched
-    return true; // удалить после реализации фильтрации
+    const clearedTodoItemTitle = todoItem.title.trim().toLowerCase();
+    const clearedSearchValue = searchValue.trim().toLowerCase();
+    const isSearched = clearedTodoItemTitle.includes(clearedSearchValue);
+    return isSearched;
   })
 
+  const filteredByPriorityItems = filteredBySearchItems.filter((todoItem) => {
+    if (priorityFilter === 'Все') {
+      return true;
+    }
+    return todoItem.priority === priorityFilter;
+  });
 
-  const todoItemsElements = filteredBySearchItems.map((item, index) => {
-    return <TodoItem key={item.id} title={item.title} checked={item.isDone} />;
+
+  const todoItemsElements = filteredByPriorityItems.map((item, index) => {
+    return <TodoItem key={item.id} id={item.id} title={item.title} checked={item.isDone} priority={item.priority}/>;
   });
 
   return (
     <TodoItemsContainer>
-      <SearchInput value={searchValue} />
+      <SearchInput value={searchValue} setValue={setSearchValue}/>
+      <SelectPriority value={priorityFilter} setValue={setPriorityFilter}/>
       {todoItemsElements}
       <NewTodoItem />
     </TodoItemsContainer>
