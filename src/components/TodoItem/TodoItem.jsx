@@ -39,7 +39,7 @@ export const TodoItem = ({title, checked, id, priority}) => {
     }
 
   return (
-    <TodoItemContainer>
+    <TodoItemContainer priority={priority}>
       <TodoItemCheckbox checked={checked} disabled={false} id={id} priority={priority}/>
       <Title checked={checked}>
         {title}
