@@ -12,7 +12,9 @@ const checkedCss = css`
 
 const Title = styled.div(props => {
   return `
+    max-width: 40%;
     font-size: 15px;
+    word-wrap: break-word;
     ${props.checked ? checkedCss : ''};
   `;
 })
